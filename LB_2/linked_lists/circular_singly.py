@@ -1,5 +1,5 @@
 from LB_2.nodes import Child, TicketNumber
-from base_linked_list import BaseLinkedList
+from LB_2.linked_lists.base_linked_list import BaseLinkedList
 
 
 class CircularSinglyLinkedList(BaseLinkedList):
@@ -72,8 +72,3 @@ def generate_children_ticket_numbers(count: int, children_recount: int, tickets_
         iteration += 1
 
     return result
-
-
-if __name__ == '__main__':
-    r = generate_children_ticket_numbers(8, 5, 2)
-    print(r)

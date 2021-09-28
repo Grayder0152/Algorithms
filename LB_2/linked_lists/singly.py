@@ -176,20 +176,3 @@ def create_list_with_common_nodes(list_1: SinglyLinkedList, list_2: SinglyLinked
         head_2 = head_2.next_val
 
     return common_list
-
-
-if __name__ == '__main__':
-    l1 = SinglyLinkedList()
-    n3 = Node('C')
-    n4 = Node('A')
-    l1.head_val = n3
-    l1.add_node_to_begin(n4)
-
-    l2 = SinglyLinkedList()
-    n1 = Node('A')
-    n2 = Node('C')
-    l2.head_val = n1
-    n1.next_val = n2
-    print('-----------------------')
-    c = create_list_with_common_nodes(l1, l2)
-    c.display_list()
