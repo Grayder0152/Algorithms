@@ -1,5 +1,5 @@
 from LB_2.nodes import Node
-from base_linked_list import BaseLinkedList
+from LB_2.linked_lists.base_linked_list import BaseLinkedList
 
 
 class SinglyLinkedList(BaseLinkedList):
@@ -117,6 +117,23 @@ class SinglyLinkedList(BaseLinkedList):
             head.next_val = None
             head = next_node
         self.head_val = None
+
+
+def generate_singly_linked_list(n: int):
+    """Method for generate singly linked list"""
+
+    linked_list = SinglyLinkedList()
+
+    linked_list.head_val = Node('Node_1')
+    head = linked_list.head_val
+
+    for number in range(2, n + 1):
+        head.next_val = Node(f'Node_{number}')
+        head = head.next_val
+
+    head.next_val = None
+
+    return linked_list
 
 
 def merge_singly_linked_lists(list_1: SinglyLinkedList, list_2: SinglyLinkedList) -> SinglyLinkedList:
