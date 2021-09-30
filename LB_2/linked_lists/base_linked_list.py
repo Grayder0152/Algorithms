@@ -5,7 +5,7 @@ from LB_2.nodes import Node
 
 class BaseLinkedList(ABC):
     def __init__(self):
-        self.head_val = None
+        self.head_val: [Node, None] = None
 
     def get_node_by_index(self, node_index: int) -> Node:
         """Method for getting the node of list by index"""
@@ -45,7 +45,19 @@ class BaseLinkedList(ABC):
 
         while head is not None:
             print(head.data_val)
-            head = head.next_val
 
+            head = head.next_val
             if head == self.head_val:
                 break
+
+    def __len__(self):
+        count = 0
+        head = self.head_val
+
+        while head is not None:
+            count += 1
+
+            head = head.next_val
+            if head == self.head_val:
+                break
+        return count
