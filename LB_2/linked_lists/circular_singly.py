@@ -5,6 +5,7 @@ from LB_2.linked_lists.base_linked_list import BaseLinkedList
 class CircularSinglyLinkedList(BaseLinkedList):
     def get_before_node_of_node(self, node):
         """Method for getting the before node of node"""
+
         head = self.head_val
 
         while True:
