@@ -1,4 +1,4 @@
 /venv/
 __pycache__
 .idea/
-/LB_2/tests/.pytest_cache/
+.pytest_cache/
