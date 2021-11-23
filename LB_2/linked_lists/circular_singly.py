@@ -1,10 +1,12 @@
+from typing import Union
+
 from LB_2.nodes import Child, TicketNumber
 from LB_2.linked_lists.base_linked_list import BaseLinkedList
 
 
 class CircularSinglyLinkedList(BaseLinkedList):
     def get_before_node_of_node(self, node):
-        """Method for getting the before node of node"""
+        """Method for getting the before node of node."""
 
         head = self.head_val
 
@@ -29,7 +31,7 @@ class CircularSinglyLinkedList(BaseLinkedList):
             before_node.next_val = node.next_val
 
 
-def generate_circular_singly_linked_list(n: int, node: [Child, TicketNumber]) -> CircularSinglyLinkedList:
+def generate_circular_singly_linked_list(n: int, node: Union[Child, TicketNumber]) -> CircularSinglyLinkedList:
     """Method for generate circular singly linked list"""
 
     circular_singly_linked_lis = CircularSinglyLinkedList()

@@ -126,3 +126,31 @@ class Stack:
 
         self.first.next_item = first
         self.last.before_item = last
+        self.first.before_item = None
+
+
+if __name__ == '__main__':
+    stack = Stack()
+    stack.append('1')
+    stack.append('2')
+    stack.append('3')
+    stack.append('4')
+    stack.append('5')
+    stack.append('6')
+    print('-----------------------------------------')
+    stack.display()
+    stack.pop()
+    print(stack.is_in_stack('4'))
+    print(stack.is_in_stack('1'))
+
+    stack.replace_first_with_last()
+    print('-----------------------------------------')
+    stack.display()
+
+    stack.expand()
+    print('-----------------------------------------')
+    stack.display()
+
+    stack.clear()
+    print('-----------------------------------------')
+    stack.display()

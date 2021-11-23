@@ -52,11 +52,11 @@ class TestMyQueue(TestCase):
         self.assertEqual(self.queue_.last.before_item, '2')
 
     def test_is_in_stack(self):
-        self.assertTrue(self.queue_.is_in_stack('1'))
-        self.assertTrue(self.queue_.is_in_stack(Item('1')))
+        self.assertTrue(self.queue_.is_in_queue('1'))
+        self.assertTrue(self.queue_.is_in_queue(Item('1')))
 
-        self.assertFalse(self.queue_.is_in_stack('0'))
-        self.assertFalse(self.queue_.is_in_stack(Item('0')))
+        self.assertFalse(self.queue_.is_in_queue('0'))
+        self.assertFalse(self.queue_.is_in_queue(Item('0')))
 
     def test_clear(self):
         self.assertFalse(self.queue_.is_empty())

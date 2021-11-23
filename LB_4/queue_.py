@@ -27,7 +27,7 @@ class MyQueue:
         self.first: [None, Item] = None
 
     def __len__(self) -> int:
-        """Get length of the stack"""
+        """Get length of the queue"""
 
         head = self.last
         length = 0
@@ -53,24 +53,24 @@ class MyQueue:
             self.last = item
 
     def clear(self) -> None:
-        """Clear the stack"""
+        """Clear the queue"""
 
         while self.last is not None:
             self.pop()
 
     def display(self) -> None:
-        """Print all elements of the stack"""
+        """Print all elements of the queue"""
 
         if self.is_empty():
-            print('Stack is empty!')
+            print('Queue is empty!')
         else:
             head = self.first
             while head is not None:
                 print(head)
                 head = head.next_item
 
-    def is_in_stack(self, value) -> bool:
-        """Check if item in the stack"""
+    def is_in_queue(self, value) -> bool:
+        """Check if item in the queue"""
 
         head = self.first
 
@@ -81,12 +81,12 @@ class MyQueue:
         return False
 
     def is_empty(self) -> bool:
-        """Check if the stack is empty"""
+        """Check if the queue is empty"""
 
         return not all([self.first, self.last])
 
     def expand(self) -> None:
-        """Expand the stack"""
+        """Expand the queue"""
 
         items = []
         while self.last is not None:
@@ -111,7 +111,7 @@ class MyQueue:
         return item
 
     def replace_first_with_last(self) -> None:
-        """Replace first item with last item of the stack"""
+        """Replace first item with last item of the queue"""
 
         last = self.last.before_item
         first = self.first.next_item
@@ -134,7 +134,28 @@ if __name__ == '__main__':
     q.append('2')
     q.append('3')
     q.append('4')
-    q.display()
-    q.clear()
+    q.append('5')
+    q.append('6')
 
+    print('-----------------------------------------')
+    q.display()
+
+    q.pop()
+    print('-----------------------------------------')
+    q.display()
+    print('-----------------------------------------')
+
+    print(q.is_in_queue('4'))
+    print(q.is_in_queue('1'))
+
+    q.replace_first_with_last()
+    print('-----------------------------------------')
+    q.display()
+
+    q.expand()
+    print('-----------------------------------------')
+    q.display()
+
+    q.clear()
+    print('-----------------------------------------')
     q.display()
