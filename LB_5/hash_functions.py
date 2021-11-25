@@ -1,65 +1,82 @@
 import math
 from abc import ABCMeta, abstractmethod
-from typing import Any
-
-AVAILABLE_KEY_TYPE = (int, float, tuple, str)
+from typing import Union
 
 
 class BaseHashFunction(metaclass=ABCMeta):
-
-    def __init__(self):
-        self.type_to_int = {
-            'int': lambda integer: integer,
-            'float': lambda flt: sum(int(number) * n for n, number in enumerate(str(flt).split('.'), start=1)),
-            'str': lambda string_: sum(ord(symbol_) * n for n, symbol_ in enumerate(string_, start=1)),
-            'tuple': lambda seq: self._get_value_sum_for_seq(seq)
-        }
-
-    def _get_value_sum_for_seq(self, seq: tuple) -> int:
-        value_sum = 0
-        for val in seq:
-            get_val = self.type_to_int.get(type(val).__name__)
-            if get_val is not None:
-                value_sum += get_val(val)
-            else:
-                value_sum += self._get_value_sum_for_seq(val)
-        return value_sum
+    def __init__(self, key: Union[int, float, str], size: int):
+        self._key = key
+        self._size = size
 
     @abstractmethod
-    def hash(self, key: Any, size: int):
+    def hash(self) -> int:
         pass
 
 
 class HashDivisionMethod(BaseHashFunction):
-    def hash(self, key: Any, size: int) -> int:
-        if isinstance(key, AVAILABLE_KEY_TYPE):
-            type_name = type(key).__name__
-            key = self.type_to_int[type_name](key)
-            hsh = key % size
-            return hsh
+    """Hash function by division method."""
 
-        raise TypeError(f"Unhashable type {type(key)}")
+    def hash(self, ) -> int:
+        return self._key % self._size
 
 
 class HashMultiplicationMethod(BaseHashFunction):
-    def hash(self, key: Any, size: int) -> int:
-        if isinstance(key, AVAILABLE_KEY_TYPE):
-            a = 0.6180339887
-            type_name = type(key).__name__
-            key = self.type_to_int[type_name](key)
-            hsh = int(size * math.modf(a * key)[0])
-            return hsh
-        raise TypeError(f"Unhashable type {type(key)}")
+    """Hash function by multiplication method."""
+
+    def hash(self) -> int:
+        a = 0.6180339887
+        hsh = int(self._size * math.modf(a * self._key)[0])
+        return hsh
 
 
 class HashStringKeyMethod(BaseHashFunction):
-    def hash(self, key: Any, size: int) -> int:
-        if isinstance(key, AVAILABLE_KEY_TYPE):
-            pass
-        raise TypeError(f"Unhashable type {type(key)}")
+    """Hash function by the method of string keys."""
+
+    def __init__(self, key_, size_):
+        super().__init__(key_, size_)
+        self.a = 2
+
+    def _set_a(self):
+        while True:
+            if math.gcd(self.a, self._size) == 1:
+                break
+            self.a += 1
+        print(f"a = {self.a}")
+
+    def hash(self) -> int:
+        if not isinstance(self._key, str):
+            raise ValueError()
+        self._set_a()
+        sum_ = 0
+        for n, b in enumerate(bytearray(self._key.encode())):
+            sum_ += b * pow(self.a, n)
+        return sum_ % self._size
 
 
 if __name__ == '__main__':
-    h = HashDivisionMethod()
-    print(h.type_to_int['str']("cat"))
-    print(h.type_to_int['str']("tac"))
+    hash_func = None
+    key = input("Введіть ключ: ")
+    size = int(input("Введіть розмір таблиці: "))
+
+    method = input(
+        """
+Виберіть метод хешування:
+    1 - хеш-функцію методом ділення;
+    2 - хеш-функцію методом множення;
+    3 - хеш-функцію методом рядкових ключів.
+        """
+    )
+    match method:
+        case '1':
+            key = int(key)
+            hash_func = HashDivisionMethod(key, size)
+        case '2':
+            key = int(key)
+            hash_func = HashMultiplicationMethod(key, size)
+        case '3':
+            hash_func = HashStringKeyMethod(key, size)
+        case _:
+            print("Номер не вірний!")
+
+    if hash_func is not None:
+        print(f"Результат хешування: {hash_func.hash()}")
