@@ -45,7 +45,7 @@ class BaseLinkedList(ABC):
         head = self.head_val
 
         while head is not None:
-            print(head.data_val)
+            print(f'\t{head.data_val}')
 
             head = head.next_val
             if head == self.head_val:
