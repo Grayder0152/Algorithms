@@ -53,25 +53,24 @@ def generate_children_ticket_numbers(count: int, children_recount: int, tickets_
 
     result = {}
 
-    children = generate_circular_singly_linked_list(count, Child)
-    tickets = generate_circular_singly_linked_list(count, TicketNumber)
+    children = generate_circular_singly_linked_list(count, Child).to_list()
+    tickets = generate_circular_singly_linked_list(count, TicketNumber).to_list()
 
     child_index = 0
     ticket_index = 0
 
+    def _get_index(old_index: int, recount: int, list_len):
+        index = old_index + recount - 1
+        while index > list_len - 1:
+            index -= list_len
+        return index
+
     iteration = 0
     while iteration != count:
-        child_index += children_recount
-        ticket_index += tickets_recount
+        child_index = _get_index(child_index, children_recount, len(children))
+        ticket_index = _get_index(ticket_index, tickets_recount, len(tickets))
 
-        child_node = children.get_node_by_index(child_index)
-        ticket_node = tickets.get_node_by_index(ticket_index)
-
-        result[child_node.data_val] = ticket_node.data_val
-
-        children.remove_node_by_index(child_index)
-        tickets.remove_node_by_index(ticket_index)
+        result[children.pop(child_index)] = tickets.pop(ticket_index)
 
         iteration += 1
-
     return result

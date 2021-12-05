@@ -8,10 +8,11 @@ class BaseLinkedList(ABC):
     def __init__(self):
         self.head_val: Optional[Node] = None
 
-    def get_node_by_index(self, node_index: int) -> Node:
+    def get_node_by_index(self, node_index: int, head=None) -> Node:
         """Method for getting the node of list by index."""
 
-        head = self.head_val
+        if head is None:
+            head = self.head_val
         index = 1
 
         while head is not None:
@@ -50,6 +51,18 @@ class BaseLinkedList(ABC):
             head = head.next_val
             if head == self.head_val:
                 break
+
+    def to_list(self) -> list:
+        list_ = []
+        head = self.head_val
+
+        while head is not None:
+            list_.append(head.data_val)
+
+            head = head.next_val
+            if head == self.head_val:
+                break
+        return list_
 
     def __len__(self):
         count = 0

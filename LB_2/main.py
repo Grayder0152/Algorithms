@@ -111,4 +111,4 @@ def circular_list():
 
 
 if __name__ == '__main__':
-    console_dialog_window()
+    circular_list()
