@@ -1,12 +1,12 @@
 from typing import Any, Optional, List, Union
 
 from LB_6.item import Item
-from hash_function import HashMultiplicationMethod, HashStringKeyMethod
+from hash_function import HashDivisionMethod
 
 
 class HashTable:
     def __init__(self):
-        self.__size = 15
+        self.__size = 3
         self.__table: List[Optional[Item]] = [None] * self.__size
 
     @property
@@ -52,12 +52,15 @@ class HashTable:
             del item
             self.__table[hash_code] = None
         else:
-            head, before = item
+            head = item
+            before = None
             while head.next is not None and head.key != key:
                 before = head
                 head = head.next
-            before.next = head.next
-            head.next = None
+            if before is None:
+                self.__table[hash_code] = head.next
+            else:
+                before.next = head.next
 
     def __str__(self) -> str:
         str_table = []
@@ -76,16 +79,11 @@ class HashTable:
         return '\n'.join(str_table)
 
     def _hash(self, key: Any) -> int:
-        if isinstance(key, int):
-            return HashMultiplicationMethod(key, self.size).hash()
-        return HashStringKeyMethod(key, self.size).hash()
+        return HashDivisionMethod(key, self.size).hash()
 
 
 if __name__ == '__main__':
     hash_table = HashTable()
-    # for i in range(25):
-    #     hash_table[i] = str(i)
-    #
     print(hash_table)
 
     while True:

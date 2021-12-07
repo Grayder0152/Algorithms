@@ -18,9 +18,7 @@ class Item:
 
     @next.setter
     def next(self, item):
-        if isinstance(item, Item):
-            self.__next = item
-        raise ValueError()
+        self.__next = item
 
     def __str__(self):
         return f"({self.key}, {self.value})"
