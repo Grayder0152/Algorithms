@@ -24,4 +24,4 @@ class Item:
         return f"({self.key}, {self.value})"
 
     def __eq__(self, other):
-        return self.value == other.value if isinstance(other, Item) else other
+        return self.value == other.value if isinstance(other, Item) else False

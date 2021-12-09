@@ -28,16 +28,18 @@ class HashTable:
 
         cycle_list = self.__table[hash_code + 1:] + self.__table[:hash_code]
         for i in cycle_list:
-            if i is self.__EMPTY:
-                return self.__EMPTY
-            elif i == self.__DELETED:
+            if i == self.__DELETED:
                 continue
-            elif i.key == _key:
+            if self.is_free_cell(i):
+                return self.__EMPTY
+            if i.key == _key:
                 return i
 
     def __setitem__(self, _key: int, _value: Any) -> None:
         if self[_key] is not self.__EMPTY:
-            raise KeyError("This key already used!")
+            print("This key already used!")
+            return
+            # raise KeyError("This key already used!")
 
         item = Item(_key, _value)
         hash_code = self._hash(_key)
@@ -56,11 +58,14 @@ class HashTable:
     def __delitem__(self, _key: int):
         item = self[_key]
         if item is self.__EMPTY:
-            raise KeyError("Key not found!")
+            print("Key not found!")
+            return
+            # raise KeyError("Key not found!")
 
         hash_code = self._hash(_key)
         if item.key == _key:
-            self.__table[hash_code] = self.__DELETED
+            index = self.__table.index(item)
+            self.__table[index] = self.__DELETED
         else:
             cycle_list = list(enumerate(self.__table))[hash_code + 1:] + list(enumerate(self.__table))[:hash_code]
             for h, i in cycle_list:
@@ -89,7 +94,7 @@ class HashTable:
         return False if isinstance(_cell, Item) else True
 
     def __rebuild_table(self) -> None:
-        old_items = (i for i in self.__table if self.is_free_cell(i))
+        old_items = (i for i in self.__table if not self.is_free_cell(i))
 
         self.__size = self.size * 2
         self.__table = [self.__EMPTY] * self.size
@@ -98,34 +103,4 @@ class HashTable:
             self[item.key] = item.value
 
 
-if __name__ == '__main__':
-    hash_table = HashTable()
-    print(hash_table)
 
-    while True:
-        print("-" * 50)
-        inp = input(
-            """
-    Оберіть опперацію з хеш-таблицею('q' - вийти):
-        1 - додавання нової пари «ключ-значення»;
-        2 - видалення пари «ключ-значення» за ключем;
-        3 - пошук значення за ключем.
-            """
-        )
-        match inp:
-            case '1':
-                key = int(input("Ключ: "))
-                value = int(input("Значення: "))
-                hash_table[key] = value
-            case '2':
-                key = int(input("Ключ: "))
-                del hash_table[key]
-            case '3':
-                key = int(input("Ключ: "))
-                print(f'value = {hash_table[key]}')
-            case 'q':
-                break
-            case _:
-                print("Номер не вірний!")
-        print("-" * 50)
-        print(hash_table)
