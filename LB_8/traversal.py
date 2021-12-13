@@ -4,7 +4,7 @@ from typing import Union
 
 from node import Node
 from tree import Tree
-from utils import generate_tree
+from utils import generate_tree, display_tree
 
 
 class Order:
@@ -110,7 +110,7 @@ class Traversal:
     def __traversal_with_find(self, find_node_data: str) -> str:
         self.__check_order()
         traversal = self.__order(self.__tree, find_node_data)
-        if traversal.find_node(self.__tree.root_node):
+        if traversal.find(self.__tree.root_node):
             return '-->'.join(traversal.way)
         return 'Not Found'
 
@@ -129,6 +129,7 @@ class Traversal:
 
 if __name__ == '__main__':
     tree = generate_tree()
+    display_tree(tree.root_node)
     t = Traversal(tree)
     print(t.traversal_pre_order_with_find('A'))
     print(t.traversal_in_order_with_find('A'))

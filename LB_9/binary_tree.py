@@ -1,11 +1,11 @@
-from typing import Union, Any
+from typing import Union, Any, Optional
 
 from node import Node
 
 
 class Tree:
-    def __init__(self, root_node=None):
-        self.root: Union[Node, None] = root_node
+    def __init__(self, root_node: Optional[Node] = None):
+        self.root: Optional[Node] = root_node
 
     def __repr__(self):
         return f"Tree with root node {self.root}"
@@ -29,6 +29,8 @@ class Tree:
         return node
 
     def find_node(self, key: Any):
+        if self.root is None:
+            return
         if self.root == key:
             return self.root
 
@@ -57,20 +59,20 @@ class Tree:
         return False
 
 
-def display_tree(node):
-    if not isinstance(node, Node):
+def display_tree(node, pos=None):
+    if node is None:
         return
     prefix = ""
     sep = f'{" " * node.get_level()}'
     if node.parent:
-        prefix = sep + "|__"
+        prefix = sep + f"{pos}:|__"
         if node.parent.parent is not None:
             prefix = ' ' * 2 + prefix
     print(f"{prefix}{node.key}")
     if node.left:
-        display_tree(node.left)
+        display_tree(node.left, pos="LEFT")
     if node.right:
-        display_tree(node.right)
+        display_tree(node.right, pos="RIGHT")
 
 
 if __name__ == '__main__':

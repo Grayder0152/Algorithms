@@ -1,7 +1,10 @@
+from typing import Optional, Any, List
+
+
 class Node:
-    def __init__(self, data, parent=None):
+    def __init__(self, data: Any, parent: Optional['Node'] = None):
         self.data = data
-        self.children = []
+        self.children: List['Node'] = []
         self.parent = self.set_parent(parent)
 
     def __repr__(self):

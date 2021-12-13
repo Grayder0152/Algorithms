@@ -3,6 +3,9 @@ from tree import Tree
 
 
 def display_tree(node):
+    if node is None:
+        print('Tree is empty!')
+        return
     sep = f'{" " * node.get_level()}'
     prefix = ""
     if node.parent:

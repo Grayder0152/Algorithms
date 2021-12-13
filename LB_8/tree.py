@@ -1,8 +1,10 @@
+from typing import Optional
+
 from node import Node
 
 
 class Tree:
-    def __init__(self, _root_node):
+    def __init__(self, _root_node: Optional[Node]):
         self.__root_node = _root_node
 
     def __repr__(self):
@@ -15,11 +17,16 @@ class Tree:
     def add_node(self, data, parent):
         if self.find_node(data):
             raise AttributeError(f"Node with data {data} already exist.")
+        if self.__root_node is None:
+            self.__root_node = Node(data)
+            return self.__root_node
         if parent is None:
             raise ValueError('If node is not root, it must have parent.')
         return Node(data, parent)
 
     def find_node(self, data):
+        if self.root_node is None:
+            return
         if self.root_node.data == data:
             return self.root_node
         for ch in self.root_node.children:
@@ -36,6 +43,8 @@ class Tree:
                 node.parent.children.remove(node)
             node.parent = None
             node.children = []
+            if node.data == self.__root_node.data:
+                self.__root_node = None
             del node
 
 
