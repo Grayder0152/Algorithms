@@ -46,15 +46,52 @@ class Tree:
     def remove_node(self, key: Any):
         node = self.find_node(key)
         if node:
-            if self.root == node:
-                del self.root
-                self.root = None
-            elif node.parent.left == node:
-                del node.parent.left
-                node.parent.left = None
+            node_children = [node.left, node.right]
+            if not any(node_children):
+                if node.parent is not None:
+                    if node.is_left():
+                        node.parent.left = None
+                    else:
+                        node.parent.right = None
+                    node.parent = None
+                else:
+                    self.root = None
+            elif not all(node_children):
+                if node.left is not None:
+                    node.left.parent = node.parent
+                else:
+                    node.right.parent = node.parent
+                if node.parent is None:
+                    self.root = node.left or node.right
+                elif node.is_left():
+                    node.parent.left = node.left or node.right
+                else:
+                    node.parent.right = node.left or node.right
+
             else:
-                del node.parent.right
-                node.parent.right = None
+                count_posterity = node.count_posterity()
+                if count_posterity['left'] > count_posterity['right']:
+                    new_node = node.left.get_max_child()
+                else:
+                    new_node = node.right.get_min_child()
+                if new_node.is_left():
+                    new_node.parent.left = None
+                else:
+                    new_node.parent.right = None
+                new_node.parent = node.parent
+                if node.parent is None:
+                    self.root = new_node
+                elif node.is_left():
+                    node.parent.left = new_node
+                else:
+                    node.parent.right = new_node
+                new_node.left = node.left
+                new_node.right = node.right
+                if new_node.left is not None:
+                    new_node.left.parent = new_node
+                if new_node.right is not None:
+                    new_node.right.parent = new_node
+
             return True
         return False
 

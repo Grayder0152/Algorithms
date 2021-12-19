@@ -3,6 +3,16 @@ from binary_tree import Tree, display_tree
 
 if __name__ == '__main__':
     tree = Tree()
+    n1 = Node(18, '1')
+    n2 = Node(3, '1')
+    tree.insert_node(n1)
+    tree.insert_node(n2)
+    tree.insert_node(Node(20, '1'))
+    tree.insert_node(Node(1, '1'))
+    tree.insert_node(Node(5, '1'))
+    tree.insert_node(Node(4, '1'))
+    tree.insert_node(Node(7, '1'))
+
     display_tree(tree.root)
 
     while True:

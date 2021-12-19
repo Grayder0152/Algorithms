@@ -19,15 +19,12 @@ class Node:
         return f"{self.key}"
 
     def __del__(self):
-        if self.left:
-            del self.left
-        if self.right:
-            del self.right
         if self.parent:
-            if self.parent.left == self:
+            if self.is_left():
                 self.parent.left = None
-            elif self.parent.right == self:
+            else:
                 self.parent.right = None
+            self.parent = None
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Node):
@@ -43,6 +40,11 @@ class Node:
     def data(self):
         return self.__data
 
+    def is_left(self) -> bool:
+        if self.parent.left == self:
+            return True
+        return False
+
     def get_level(self):
         depth = 0
         parent = self.parent
@@ -51,6 +53,20 @@ class Node:
             parent = parent.parent
 
         return depth
+
+    def count_posterity(self):
+        def _get_count(node):
+            c = 0
+            if node is not None:
+                c += 1
+                c += _get_count(node.left) + _get_count(node.right)
+            return c
+
+        posterity = {
+            'left': _get_count(self.left),
+            'right': _get_count(self.right)
+        }
+        return posterity
 
     def add_child(self, node: 'Node') -> None:
         if self >= node:
@@ -77,6 +93,22 @@ class Node:
             if self.right is None:
                 return
             return self.right.find_child(key)
+
+    def get_max_child(self):
+        if self.right is None:
+            return self
+        max_child = self.right
+        while max_child.right is not None:
+            max_child = max_child.right
+        return max_child
+
+    def get_min_child(self):
+        if self.left is None:
+            return self
+        min_child = self.left
+        while min_child.left is not None:
+            min_child = min_child.left
+        return min_child
 
 
 if __name__ == '__main__':
